@@ -2,7 +2,7 @@
  * @module me
  * @namespace me
  * @version 1.0
- */
+ */ 
 ; var me = function (src, options) {
     me.show(src, options);
 };
