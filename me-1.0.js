@@ -143,18 +143,18 @@
 			|| browser == "Microsoft Internet Explorer" && trim_Version == "MSIE8.0"
 			|| browser == "Microsoft Internet Explorer" && trim_Version == "MSIE9.0") {
         } else {
-            if (angular.version.minor >= 3) {
-                location.hash = "/";
-            } else {
-                location.hash = "";
-            }
+            //if (angular.version.minor >= 3) {
+            //    location.hash = "";
+            //} else {
+            //    location.hash = "";
+            //}
         }
     } else {
-        if (angular.version.minor >= 3) {
-            location.hash = "/";
-        } else {
-            location.hash = "";
-        }
+        //if (angular.version.minor >= 3) {
+        //    location.hash = "/";
+        //} else {
+        //    location.hash = "";
+        //}
     }
 
 
@@ -573,7 +573,8 @@
                 hideSelector = $._param.config.hideSelector;
 
             if (options.showType == 0) {
-            	//container.html($.ngobj.$compile(html)($.ngobj.$scope));
+                //container.html($.ngobj.$compile(html)($.ngobj.$scope));
+                $.ngobj.$location.hash(newPage.hash)
                 hideSelector && jQuery(hideSelector).show();
             } else {
                 if (lastPage) {
@@ -843,7 +844,8 @@
 
             var pageObj = {
                 id: pageId,
-                hash: (options.showType == 0) ? "" : pageId,
+                //hash: (options.showType == 0) ? "" : pageId,
+                hash: pageId,
                 scrollTop: 0,
                 param: options.param,
                 title: options.title,
