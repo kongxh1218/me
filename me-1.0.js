@@ -2,7 +2,7 @@
  * @module me
  * @namespace me
  * @version 1.0
- */ 
+ */
 ; var me = function (src, options) {
     me.show(src, options);
 };
@@ -349,13 +349,21 @@
 		 * @property {String} [style=null] - null: 填充（默认） 'pop'：弹出层
 		 */
         show: function (src, options) {
-            if ($._param.config.async) {
-                $._method._loadController(src, function () {
-                    $._method._show(src, options);
-                });
-            } else {
-                $._method._show(src, options);
-            }
+        	var page = $._method._show(src, options);
+        	$._method._loadController(src, function (exists) {
+        		var container = $._method._getContainer(),
+        			compilePage = $.ngobj.$compile(page.html)($.ngobj.$scope);
+        		if (options.showType == 0) {
+        			container.html(compilePage);
+        		} else {
+        			page.pageObj.style == "pop"
+						? jQuery("body").append(compilePage)
+						: container.append(compilePage);
+        		}
+        		!exists && me.ngobj.$scope.$apply();
+        	});
+
+        	return page.pageObj;
         },
 
         /**
@@ -565,7 +573,7 @@
                 hideSelector = $._param.config.hideSelector;
 
             if (options.showType == 0) {
-                container.html(html);
+            	//container.html($.ngobj.$compile(html)($.ngobj.$scope));
                 hideSelector && jQuery(hideSelector).show();
             } else {
                 if (lastPage) {
@@ -574,9 +582,9 @@
 						: jQuery(document).scrollTop()
                 }
 
-                newPage.style == "pop"
-					? jQuery("body").append(html)
-					: container.append(html);
+                //newPage.style == "pop"
+				//	? jQuery("body").append($.ngobj.$compile(html)($.ngobj.$scope))
+				//	: container.append($.ngobj.$compile(html)($.ngobj.$scope));
 
                 if (newPage.style != "pop" && lastPage) {
                     jQuery("#" + lastPage.id).hide();
@@ -588,7 +596,10 @@
 
             options.refresh && $.ngobj.$scope.$apply();
             $._param.onshow && $._param.onshow();
-            return newPage;
+            return {
+            	pageObj: newPage,
+				html: html
+            };
         },
 
         /**
@@ -647,19 +658,18 @@
             ctrlName = ctrlName[1];
 
             if (window[ctrlName]) {
-                callback && callback();
+                callback && callback(true);
                 return;
             }
 
-            var ctrlSrc = pageSrc.replace("tpl/", "js-ctrl/").replace(".html", ".js"),
+            var ctrlSrc = pageSrc.replace("tpl/", "js-ctrl/").replace(".html", ".js") + "?_t=" + new Date().getTime(),
                 id = "ctrl_" + ctrlName;
 
             $.utils.loadScript(id, ctrlSrc, function () {
                 if (angular.version.minor >= 3) {
                     $._param.module.controller(ctrlName + ".ctrl", window[ctrlName]);
                 }
-                callback && callback();
-                me.ngobj.$scope.$apply();
+                callback && callback(false);
             });
         },
 
@@ -822,14 +832,14 @@
 		 */
         _getPageHtml: function (src, options) {
             var pageSrc = $._method._getTplSrc(src);
-            var path = pageSrc.replace(/\//g, "-").substring(0, pageSrc.indexOf("."));
-            var pageId = path + "-" + Math.round(Math.random() * 10000);
+            var path = pageSrc.replace(/\//g,"-").substring(0, pageSrc.indexOf("."));
+            var pageId = path;
 
-            var page = '<div class="me-page" id="' + pageId + '" ng-include src="\'' + pageSrc + '?temp=' + Math.random() + '\'"';
+            var page = '<div class="me-page" id="' + pageId + '" ng-include src="\'' + pageSrc + '?temp=' + new Date().getTime() + '\'"';
             //page += that._getShowAniClass(options);
             page += "></div>";
 
-            page = $.ngobj.$compile(page)($.ngobj.$scope);
+            //page = $.ngobj.$compile(page)($.ngobj.$scope);
 
             var pageObj = {
                 id: pageId,
