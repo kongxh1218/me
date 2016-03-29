@@ -68,7 +68,7 @@
             oJs.setAttribute("type", "text/javascript");
             oJs.setAttribute("src", src);
             oJs.onload = function () {
-            	if (typeof callback == "function") callback();
+                if (typeof callback == "function") callback();
             }
             document.getElementsByTagName("head")[0].appendChild(oJs);
             //document.writeln("<script src='" + src + "'></script>");
@@ -217,12 +217,17 @@
 		 * @property {String} hideSelector 
 		 *		当showType = 1 打开页面的时候，需要隐藏的元素选择器，返回到一级页面时，会重新显示
 		 * @property {String} [path='tpl/'] - 模板所在的路径
-		 * @property {bool} [async=false] - 是否异步加载controller
 		 * @property {Object} route 
 		 *		路由配置表，key-value形式，配置后可以在me.show的时候传入key寻找页面
+		 * @property {Boolean} cache 是否启用缓存
 		 */
         config: function (cf) {
-            $._param.config = cf
+            var defaultConfig = {
+                cache: true
+            };
+
+            for (var i in cf) defaultConfig[i] = cf[i];
+            $._param.config = defaultConfig
         },
 
         /**
@@ -349,21 +354,21 @@
 		 * @property {String} [style=null] - null: 填充（默认） 'pop'：弹出层
 		 */
         show: function (src, options) {
-        	var page = $._method._show(src, options);
-        	$._method._loadController(src, function (exists) {
-        		var container = $._method._getContainer(),
+            var page = $._method._show(src, options);
+            $._method._loadController(src, function (exists) {
+                var container = $._method._getContainer(),
         			compilePage = $.ngobj.$compile(page.html)($.ngobj.$scope);
-        		if (options.showType == 0) {
-        			container.html(compilePage);
-        		} else {
-        			page.pageObj.style == "pop"
+                if (options.showType == 0) {
+                    container.html(compilePage);
+                } else {
+                    page.pageObj.style == "pop"
 						? jQuery("body").append(compilePage)
 						: container.append(compilePage);
-        		}
-        		!exists && me.ngobj.$scope.$apply();
-        	});
+                }
+                !exists && me.ngobj.$scope.$apply();
+            });
 
-        	return page.pageObj;
+            return page.pageObj;
         },
 
         /**
@@ -584,8 +589,8 @@
                 }
 
                 //newPage.style == "pop"
-				//	? jQuery("body").append($.ngobj.$compile(html)($.ngobj.$scope))
-				//	: container.append($.ngobj.$compile(html)($.ngobj.$scope));
+                //	? jQuery("body").append($.ngobj.$compile(html)($.ngobj.$scope))
+                //	: container.append($.ngobj.$compile(html)($.ngobj.$scope));
 
                 if (newPage.style != "pop" && lastPage) {
                     jQuery("#" + lastPage.id).hide();
@@ -598,8 +603,8 @@
             options.refresh && $.ngobj.$scope.$apply();
             $._param.onshow && $._param.onshow();
             return {
-            	pageObj: newPage,
-				html: html
+                pageObj: newPage,
+                html: html
             };
         },
 
@@ -649,7 +654,8 @@
 
         _loadController: function (src, callback) {
             var pageSrc = $._method._getTplSrc(src),
-                reg = /^.*\/(.*?)\.html$/;
+                reg = /^.*\/(.*?)\.html.*?$/;
+
             var ctrlName = reg.exec(pageSrc);
 
             if (!ctrlName) {
@@ -663,8 +669,11 @@
                 return;
             }
 
-            var ctrlSrc = pageSrc.replace("tpl/", "js-ctrl/").replace(".html", ".js") + "?_t=" + new Date().getTime(),
-                id = "ctrl_" + ctrlName;
+            var ctrlSrc = pageSrc.replace("tpl/", "js-ctrl/").replace(".html", ".js");
+            if (ctrlSrc.indexOf("?") > 0)
+                ctrlSrc = ctrlSrc.substring(0, ctrlSrc.indexOf("?"));
+            ctrlSrc += "?_t=" + new Date().getTime();
+            var id = "ctrl_" + ctrlName;
 
             $.utils.loadScript(id, ctrlSrc, function () {
                 if (angular.version.minor >= 3) {
@@ -833,14 +842,13 @@
 		 */
         _getPageHtml: function (src, options) {
             var pageSrc = $._method._getTplSrc(src);
-            var path = pageSrc.replace(/\//g,"-").substring(0, pageSrc.indexOf("."));
+            var path = pageSrc.replace(/\//g, "-").substring(0, pageSrc.indexOf("."));
             var pageId = path;
+            var need_cache = $._param.config.cache;
 
-            var page = '<div class="me-page" id="' + pageId + '" ng-include src="\'' + pageSrc + '?temp=' + new Date().getTime() + '\'"';
-            //page += that._getShowAniClass(options);
-            page += "></div>";
-
-            //page = $.ngobj.$compile(page)($.ngobj.$scope);
+            var page = '<div class="me-page" id="' + pageId + '" ng-include src="\'' + pageSrc;
+            need_cache || (page += '?temp=' + new Date().getTime());
+            page += '\'"></div>';
 
             var pageObj = {
                 id: pageId,
@@ -852,6 +860,18 @@
                 style: options.style,
                 src: src
             };
+
+            if (src.indexOf("?") > 0) {
+                var srcParam = src.substring(src.indexOf("?") + 1);
+                var srcParamList = srcParam.split("&");
+                var srcParamObj = {};
+                $.utils.each(srcParamList, function (p) {
+                    srcParamObj[p.split("=")[0]] = p.split("=")[1];
+                })
+
+                pageObj.param = {}
+                $.utils.extend(pageObj.param, srcParamObj)
+            }
 
             $._method._attachEvent(pageObj);
 
@@ -914,8 +934,17 @@
                 src = config.path + src;
             }
 
-            if (!$.utils.endWith(src, ".html")) {
-                src += ".html";
+            if (src.indexOf("?") < 0) {
+                if (!$.utils.endWith(src, ".html")) {
+                    src += ".html";
+                }
+            } else {
+                var prex = src.substring(0, src.indexOf("?")),
+                    srcParam = src.substring(src.indexOf("?"));
+                if (!$.utils.endWith(prex, ".html")) {
+                    prex += ".html";
+                }
+                src = prex + srcParam
             }
 
             return src;
