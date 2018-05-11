@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="meApp">
+<head>
+	<title>me demo</title>
+	<meta charset="utf-8" />
+	<link href="css/style.css" rel="stylesheet" />
+	<script src="js/jquery-2.0.2.min.js"></script>
+	<script src="js/angular1.3.8.min.js"></script>
+	<script src="js/me-1.0.js"></script>
+	<script src="js/Util.js"></script>
+
+	<script src="js-ctrl/list.js"></script>
+	<script src="js-ctrl/student.js"></script>
+	<script src="js-ctrl/myConfirm.js"></script>
+	<script>
+		me.config({
+			container: "#me_body", // 页面装载容器元素的id
+			main: "list", // 初始化时加载的页面
+			path: "tpl/" // 模板文件所在的文件夹
+		});
+	</script>
+</head>
+<body ng-controller="me.ctrl">
+	<div id="me_body"></div>
+</body>
+</html>
+<script>
+	me.run('meApp', []);
+</script>
