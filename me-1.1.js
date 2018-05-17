@@ -748,8 +748,11 @@
                 $._method._setTitle(lastPage);
 
                 $.ngobj.$scope.$$postDigest(function () {
-                    $._param.config.scroller
-                        ? jQuery($._param.config.scroller)[0].scrollTop = lastPage.scrollTop : window.scrollTo(0, lastPage.scrollTop);
+                    setTimeout(function(){
+                        $._param.config.scroller
+                            ? jQuery($._param.config.scroller)[0].scrollTop = lastPage.scrollTop : window.scrollTo(0, lastPage.scrollTop);
+                    });
+                    
                 });
             }
 
