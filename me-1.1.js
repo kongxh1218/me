@@ -223,6 +223,7 @@
 		 *		路由配置表，key-value形式，配置后可以在me.show的时候传入key寻找页面
 		 * @property {Boolean} dynamicPage 是否为python动态页，如果是将出让{{}}标记
 		 * @property {Boolean} cache 是否启用缓存
+         * @property {Boolean} in_tow js、html是否在同一个文件夹
 		 */
         config: function (cf) {
             var defaultConfig = {
@@ -696,7 +697,12 @@
                 return;
             }
 
-            var ctrlSrc = pageSrc.replace("tpl/", "js-ctrl/").replace(".html", ".js");
+            var ctrlSrc = "";
+            if($._param.config.in_tow) {
+                ctrlSrc = pageSrc.replace(".html", ".js");
+            } else {
+                ctrlSrc = pageSrc.replace("tpl/", "js-ctrl/").replace(".html", ".js");
+            }
             if (ctrlSrc.indexOf("?") > 0)
                 ctrlSrc = ctrlSrc.substring(0, ctrlSrc.indexOf("?"));
             ctrlSrc += "?_t=" + new Date().getTime();
