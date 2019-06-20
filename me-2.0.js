@@ -365,10 +365,11 @@
          * @property {String} [style=null] - null: 填充（默认） 'pop'：弹出层
 		 * @property {String} [ctrlpath=null] - null: 指定ctrlpath
          * @property {String} [container=null] - null: 指定容器，默认使用config配置
+         * @property {Boolean} [isFullPath=false] - false: 是否全路径，默认false
 		 */
         show: function (src, options) {
             var page = $._method._show(src, options);
-            $._method._loadController(options.ctrlpath || src, function (exists) {
+            $._method._loadController(options.ctrlpath || src, options.isFullPath, function (exists) {
                 var container = $._method._getContainer(options.container),
         			compilePage = $.ngobj.$compile(page.html)($.ngobj.$scope);
                 if (options.showType == 0) {
@@ -685,8 +686,8 @@
             return 0;
         },
 
-        _loadController: function (src, callback) {
-            var pageSrc = $._method._getTplSrc(src),
+        _loadController: function (src, isFullPath, callback) {
+            var pageSrc = $._method._getTplSrc(src, isFullPath),
                 reg = /^.*\/(.*?)\.html.*?$/;
 
             var ctrlName = reg.exec(pageSrc);
@@ -922,7 +923,7 @@
 		 * @param {Object} options - me.show中传入的options对象
 		 */
         _getPageHtml: function (src, options) {
-            var pageSrc = $._method._getTplSrc(src);
+            var pageSrc = $._method._getTplSrc(src, options.isFullPath);
             var path = pageSrc.replace(/\//g, "-").substring(0, pageSrc.indexOf("."));
             var pageId = path;
 
@@ -1046,7 +1047,7 @@
 		 * @function _getTplSrc
 		 * @param {String} src - 插件名称 | route名称 | 相对路径 | 绝对路径
 		 */
-        _getTplSrc: function (src) {
+        _getTplSrc: function (src, isFullPath) {
             if ($._param.plugins && src in $._param.plugins) {
                 return $._param.plugins[src].src;
             }
@@ -1057,7 +1058,7 @@
 
             config.path = config.path || "tpl/";
 
-            if (!$.utils.startWith(src, config.path)) {
+            if (!isFullPath && !$.utils.startWith(src, config.path)) {
                 src = config.path + src;
             }
 
