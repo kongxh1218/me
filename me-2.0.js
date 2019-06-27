@@ -23,9 +23,9 @@
             //iframe.src = "/favicon.ico";
             //iframe.style.display = "none";
             //iframe.onload = function () {
-            //	try {
-            //		document.body.removeChild(iframe);
-            //	} catch (e) { }
+            //    try {
+            //        document.body.removeChild(iframe);
+            //    } catch (e) { }
             //}
             //document.body.appendChild(iframe);
         },
@@ -133,9 +133,9 @@
         var version = b_version.split(";");
         var trim_Version = version[1].replace(/[ ]/g, "");
         if (browser == "Microsoft Internet Explorer" && trim_Version == "MSIE6.0"
-			|| browser == "Microsoft Internet Explorer" && trim_Version == "MSIE7.0"
-			|| browser == "Microsoft Internet Explorer" && trim_Version == "MSIE8.0"
-			|| browser == "Microsoft Internet Explorer" && trim_Version == "MSIE9.0") {
+            || browser == "Microsoft Internet Explorer" && trim_Version == "MSIE7.0"
+            || browser == "Microsoft Internet Explorer" && trim_Version == "MSIE8.0"
+            || browser == "Microsoft Internet Explorer" && trim_Version == "MSIE9.0") {
         } else {
             if (angular.version.minor >= 3) {
                 location.hash = "";
@@ -179,17 +179,17 @@
 (function ($) {
     $.utils.extend($, {
         /**
-		 * 请求网络数据
-		 * @function ajax
-		 * @memberof me
-		 * @param {Object} option - 请求参数
-		 * @property {String} method - post或者get
-		 * @property {String} url - 请求的http链接
-		 * @property {Object} data - post请求时的参数，json格式
-		 * @param {function} success - 成功回调函数
-		 * @param {function} failure - 失败回调函数
-	     * @param {function} before - 调用前准备函数
-		 */
+         * 请求网络数据
+         * @function ajax
+         * @memberof me
+         * @param {Object} option - 请求参数
+         * @property {String} method - post或者get
+         * @property {String} url - 请求的http链接
+         * @property {Object} data - post请求时的参数，json格式
+         * @param {function} success - 成功回调函数
+         * @param {function} failure - 失败回调函数
+         * @param {function} before - 调用前准备函数
+         */
         ajax: function (option, success, failure, before) {
             if (before && typeof (before) == 'function') before();
 
@@ -210,21 +210,21 @@
 
 
         /**
-		 * 配置me
-		 * @function config
-		 * @memberof me
-		 * @param {Object} cf - 配置参数
-		 * @property {String} main - 默认打开的页面
-		 * @property {String} container - 根元素的css选择器
-		 * @property {String} hideSelector 
-		 *		当showType = 1 打开页面的时候，需要隐藏的元素选择器，返回到一级页面时，会重新显示
-		 * @property {String} [path='tpl/'] - 模板所在的路径
-		 * @property {Object} route 
-		 *		路由配置表，key-value形式，配置后可以在me.show的时候传入key寻找页面
-		 * @property {Boolean} dynamicPage 是否为python动态页，如果是将出让{{}}标记
-		 * @property {Boolean} cache 是否启用缓存
+         * 配置me
+         * @function config
+         * @memberof me
+         * @param {Object} cf - 配置参数
+         * @property {String} main - 默认打开的页面
+         * @property {String} container - 根元素的css选择器
+         * @property {String} hideSelector 
+         *        当showType = 1 打开页面的时候，需要隐藏的元素选择器，返回到一级页面时，会重新显示
+         * @property {String} [path='tpl/'] - 模板所在的路径
+         * @property {Object} route 
+         *        路由配置表，key-value形式，配置后可以在me.show的时候传入key寻找页面
+         * @property {Boolean} dynamicPage 是否为python动态页，如果是将出让{{}}标记
+         * @property {Boolean} cache 是否启用缓存
          * @property {Boolean} in_tow js、html是否在同一个文件夹
-		 */
+         */
         config: function (cf) {
             if (!cf) return $._param.config;
 
@@ -237,31 +237,31 @@
         },
 
         /**
-		 * 调用me.hide()时的全局回调函数
-		 */
+         * 调用me.hide()时的全局回调函数
+         */
         onhide: function (fn) {
             $._param.onhide = fn;
         },
 
         /**
-		 * 调用me.show()时的全局回调函数
-		 */
+         * 调用me.show()时的全局回调函数
+         */
         onshow: function (fn) {
             $._param.onshow = fn;
         },
 
         /**
-		 * 注册页面插件，在me.show的时候，第一个参数可以直接写插件的名称
-		 * 注册的插件在me初始化的时候会加载到页面，暂时不支持跨域
-		 * @function plugin
-		 * @memberof me
-		 * @param {Array} pluginList - 插件配置列表
-		 * @property {String} name - 插件名称
-		 * @property {String} src - 插件页面的路径
-		 * @property {Array} css 
-		 *		插件相关的css样式src数组，可以是相对路径或绝对路径，如["http://xxx.css", "folder/xxx.css", ...]
-		 * @property {Array} 插件相关的js路径数组，格式同css 
-		 */
+         * 注册页面插件，在me.show的时候，第一个参数可以直接写插件的名称
+         * 注册的插件在me初始化的时候会加载到页面，暂时不支持跨域
+         * @function plugin
+         * @memberof me
+         * @param {Array} pluginList - 插件配置列表
+         * @property {String} name - 插件名称
+         * @property {String} src - 插件页面的路径
+         * @property {Array} css 
+         *        插件相关的css样式src数组，可以是相对路径或绝对路径，如["http://xxx.css", "folder/xxx.css", ...]
+         * @property {Array} 插件相关的js路径数组，格式同css 
+         */
         plugin: function (pluginList) {
             if (!angular.isArray(pluginList)) return;
 
@@ -273,18 +273,18 @@
         },
 
         /**
-		 * 设置或者获取全局数据，参数可以是一个object，也可以是key,value
-		 * @function global
-		 * @memberof me
-		 * @demo 
-		 * 设置：
-		 * me.global(key, value)
-		 * 或者
-		 * me.global({key1: value1, key2: value2})
-		 * 获取：
-		 * js中 me.global.key
-		 * html中 global.key
-		 */
+         * 设置或者获取全局数据，参数可以是一个object，也可以是key,value
+         * @function global
+         * @memberof me
+         * @demo 
+         * 设置：
+         * me.global(key, value)
+         * 或者
+         * me.global({key1: value1, key2: value2})
+         * 获取：
+         * js中 me.global.key
+         * html中 global.key
+         */
         global: function () {
             function _setGlobalValue(key, value) {
                 var scope = $.ngobj.$scope;
@@ -295,23 +295,23 @@
             }
 
             if (arguments.length == 1
-				&& typeof arguments[0] == "object") {
+                && typeof arguments[0] == "object") {
                 for (var key in arguments[0]) {
                     _setGlobalValue(key, arguments[0][key]);
                 }
             } else if (arguments.length == 2
-				&& typeof (arguments[0] == "string")) {
+                && typeof (arguments[0] == "string")) {
                 _setGlobalValue(arguments[0], arguments[1]);
             }
         },
 
         /**
-		 * 扩展公共指令
-		 * @function directive
-		 * @memberof me
-		 * @param {String} tagName - 指令名称
-		 * @param {Function} fn - 指令构造函数，参考angular.directive
-		 */
+         * 扩展公共指令
+         * @function directive
+         * @memberof me
+         * @param {String} tagName - 指令名称
+         * @param {Function} fn - 指令构造函数，参考angular.directive
+         */
         directive: function (tagName, fn) {
             $._param.directiveList.push({
                 tagName: tagName,
@@ -320,12 +320,12 @@
         },
 
         /**
-		 * 启动angular
-		 * @function run
-		 * @memberof me
-		 * @param {String} appName - 应用程序名称
-		 * @param {Array} plugins - 插件列表
-		 */
+         * 启动angular
+         * @function run
+         * @memberof me
+         * @param {String} appName - 应用程序名称
+         * @param {Array} plugins - 插件列表
+         */
         run: function (appName, plugins) {
             $._param.module = angular.module(appName, plugins).config(function ($sceProvider, $interpolateProvider) {
                 $sceProvider.enabled(false);
@@ -341,11 +341,11 @@
         },
 
         /**
-		 * 注入me稳定后需要执行的函数
-		 * @function ready
-		 * @memberof me
-		 * @param {Function} fn - me稳定后执行的函数
-		 */
+         * 注入me稳定后需要执行的函数
+         * @function ready
+         * @memberof me
+         * @param {Function} fn - me稳定后执行的函数
+         */
         ready: function (fn) {
             if (typeof fn != "function") return;
 
@@ -353,45 +353,51 @@
         },
 
         /**
-		 * 显示一个页面
-		 * @function show
-		 * @memberof me
-		 * @param {String} src - 页面src
-		 * @param {Object} options - 参数
-		 * @property {Number} showType - 页面类型，0：一级页面 1：非一级页面
-		 * @property {Object} [param=null] - 传递的参数参数
-		 * @property {String} [title=document.title] - 页面标题
-		 * @property {Boolean} [refresh=false] - 是否自动触发$scope.$apply()
+         * 显示一个页面
+         * @function show
+         * @memberof me
+         * @param {String} src - 页面src
+         * @param {Object} options - 参数
+         * @property {Number} showType - 页面类型，0：一级页面 1：非一级页面
+         * @property {Object} [param=null] - 传递的参数参数
+         * @property {String} [title=document.title] - 页面标题
+         * @property {Boolean} [refresh=false] - 是否自动触发$scope.$apply()
          * @property {String} [style=null] - null: 填充（默认） 'pop'：弹出层
-		 * @property {String} [ctrlpath=null] - null: 指定ctrlpath
+         * @property {Array} [ctrlpath=null] - null: 额外的控制器ctrlpath
          * @property {String} [container=null] - null: 指定容器，默认使用config配置
          * @property {Boolean} [isFullPath=false] - false: 是否全路径，默认false
-		 */
+         */
         show: function (src, options) {
             var page = $._method._show(src, options);
-            $._method._loadController(options.ctrlpath || src, options.isFullPath, function (exists) {
+
+
+            $._method._loadController(src, options.isFullPath, function (exists) {
                 var container = $._method._getContainer(options.container),
-        			compilePage = $.ngobj.$compile(page.html)($.ngobj.$scope);
+                    compilePage = $.ngobj.$compile(page.html)($.ngobj.$scope);
                 if (options.showType == 0) {
                     container.html(compilePage);
                 } else {
                     page.pageObj.style == "pop"
-						? jQuery("body").append(compilePage)
-						: container.append(compilePage);
+                        ? jQuery("body").append(compilePage)
+                        : container.append(compilePage);
                 }
-                !exists && me.ngobj.$scope.$apply();
+
+                //加载扩展控制器
+                $._method._loadExtendControl(options.ctrlpath, function(){
+                    !exists && me.ngobj.$scope.$apply();
+                });
             });
 
             return page.pageObj;
         },
 
         /**
-		 * 关闭页面，如果只剩下一个页面，则不会有任何动作
-		 * @function hide
-		 * @memberof me
-		 * @param {Object} params - 这里的参数将会被传入页面hide事件中
-		 * @param {Number} layer - 关闭的层级，默认为1，表示关闭当前页面，如果大于1，则往上关闭相应的页面
-		 */
+         * 关闭页面，如果只剩下一个页面，则不会有任何动作
+         * @function hide
+         * @memberof me
+         * @param {Object} params - 这里的参数将会被传入页面hide事件中
+         * @param {Number} layer - 关闭的层级，默认为1，表示关闭当前页面，如果大于1，则往上关闭相应的页面
+         */
         hide: function (params, layer) {
             if ($._param.pageList.length <= 0) {
                 return;
@@ -421,54 +427,54 @@
             temp();
         },
         /**
-		 * 设置页面进入和离去动画，该配置作用于showType=1的情况
-		 * @function animate
-		 * @memberof me
-		 * @param {Object} options - 参数
-		 * @property {Function} show - 页面显示之前的回调函数，会传递即将被显示的页面对象和即将被隐藏的页面对象
-		 * @property {Function} hide - 页面隐藏之前的回调函数，会传递即将被显示的页面对象和即将被隐藏的页面对象
-		 */
+         * 设置页面进入和离去动画，该配置作用于showType=1的情况
+         * @function animate
+         * @memberof me
+         * @param {Object} options - 参数
+         * @property {Function} show - 页面显示之前的回调函数，会传递即将被显示的页面对象和即将被隐藏的页面对象
+         * @property {Function} hide - 页面隐藏之前的回调函数，会传递即将被显示的页面对象和即将被隐藏的页面对象
+         */
         //animate: function (options) {
-        //	_animateOptions = options;
+        //    _animateOptions = options;
         //},
 
         /**
-		 * 获得顶层页面的参数
-		 * @function param
-		 * @memberof me
-		 */
+         * 获得顶层页面的参数
+         * @function param
+         * @memberof me
+         */
         param: function () {
             return $.page().param;
         },
 
         /**
-		 * 执行当前页面注册的事件
-		 * @function trigger
-		 * @memberof me
-		 * @param {String} ename - 事件名称
-		 * @param {Arguments} args - 传递的参数，多个参数逗号分隔
-		 */
+         * 执行当前页面注册的事件
+         * @function trigger
+         * @memberof me
+         * @param {String} ename - 事件名称
+         * @param {Arguments} args - 传递的参数，多个参数逗号分隔
+         */
         trigger: function (ename, args) {
             var page = $.page();
             page.exec.apply(page, arguments);
         },
 
         /**
-		 * 获取顶层的页面对象
-		 * @function page
-		 * @memberof me
-		 */
+         * 获取顶层的页面对象
+         * @function page
+         * @memberof me
+         */
         page: function () {
             return $._method._getLastPage();
         },
 
         /**
-		 * 定义controller
-		 * @function define
-		 * @memberof me
-		 * @param {String} ctrlName - controller名称
-		 * @param {Object} fnList - 接口列表
-		 */
+         * 定义controller
+         * @function define
+         * @memberof me
+         * @param {String} ctrlName - controller名称
+         * @param {Object} fnList - 接口列表
+         */
         define: function (ctrlName, fnList) {
             return $.require(ctrlName, fnList);
         },
@@ -520,14 +526,14 @@
         },
 
         /**
-		 * 获取当前页面的控制器对象
-		 * @function control
-		 * @memberof me
-		 */
+         * 获取当前页面的控制器对象
+         * @function control
+         * @memberof me
+         */
         control: function () {
             var pages = jQuery(".me-page");
             var ctrlString = pages.eq(pages.length - 1).find("[ng-controller]").attr("ng-controller"),
-				ctrlName = ctrlString ? ctrlString.split(".")[0] : "";
+                ctrlName = ctrlString ? ctrlString.split(".")[0] : "";
 
             return ctrlName ? window[ctrlName] : {};
         }
@@ -555,9 +561,9 @@
 
     $._method = {
         /**
-		 * 构建controller
-		 * @function _buildCtrl
-		 */
+         * 构建controller
+         * @function _buildCtrl
+         */
         _buildCtrl: function () {
             for (var i = 0; i < $._param.ctrlList.length; i++) {
                 var ctrl = $._param.ctrlList[i];
@@ -567,11 +573,11 @@
         },
 
         /**
-		 * 存储controller列表
-		 * @function _appendCtrl
-		 * @param {String} ctrlName - controller名称
-		 * @param {Function} fn - 入口函数
-		 */
+         * 存储controller列表
+         * @function _appendCtrl
+         * @param {String} ctrlName - controller名称
+         * @param {Function} fn - 入口函数
+         */
         _appendCtrl: function (ctrlName, fn) {
             if (angular.version.minor < 3) return;
 
@@ -589,9 +595,9 @@
             $._method._setTitle(options);
 
             var lastPage = $._method._getLastPage(false,options.container);
-			var html = $._method._getPageHtml(src, options);
+            var html = $._method._getPageHtml(src, options);
             var container = $._method._getContainer(options.container);
-			var newPage = $._method._getLastPage(false,options.container);
+            var newPage = $._method._getLastPage(false,options.container);
             var hideSelector = $._param.config.hideSelector;
 
             if (options.showType == 0) {
@@ -600,8 +606,8 @@
             } else {
                 if (lastPage) {
                     lastPage.scrollTop = $._param.config.scroller
-						? jQuery($._param.config.scroller).scrollTop()
-						: jQuery(document).scrollTop()
+                        ? jQuery($._param.config.scroller).scrollTop()
+                        : jQuery(document).scrollTop()
                 } else {
                     rootpage_id = "_rootpage_" + Math.round(Math.random() * 10000);
                     container.find("> *:first").attr("id", rootpage_id);
@@ -609,8 +615,8 @@
                         id: rootpage_id,
                         hash: "",
                         scrollTop: $._param.config.scroller
-						    ? jQuery($._param.config.scroller).scrollTop()
-						    : jQuery(document).scrollTop(),
+                            ? jQuery($._param.config.scroller).scrollTop()
+                            : jQuery(document).scrollTop(),
                         param: null,
                         title: lastTitle,
                         style: null,
@@ -620,14 +626,14 @@
                 }
 
                 //newPage.style == "pop"
-                //	? jQuery("body").append($.ngobj.$compile(html)($.ngobj.$scope))
-                //	: container.append($.ngobj.$compile(html)($.ngobj.$scope));
+                //    ? jQuery("body").append($.ngobj.$compile(html)($.ngobj.$scope))
+                //    : container.append($.ngobj.$compile(html)($.ngobj.$scope));
 
                 if (newPage.style != "pop") {
                     lastPage && jQuery("#" + lastPage.id).hide();
                     $._param.config.scroller
-						? jQuery($._param.config.scroller).scrollTop(0)
-						: jQuery(document).scrollTop(0)
+                        ? jQuery($._param.config.scroller).scrollTop(0)
+                        : jQuery(document).scrollTop(0)
                 }
 
                 $.ngobj.$location.hash(newPage.hash)
@@ -642,23 +648,35 @@
             };
         },
 
-        /**
-		 * 处理页面进入和离去动画
-		 * @function _handleAnimate
-		 * @param {Element} showPage - 即将被显示的元素
-		 * @param {Element} hidePage - 即将被隐藏的元素
-		 * @param {Boolean} isShow - 是显示页面还是隐藏页面
-		 */
-        //_handleAnimate: function (showPage, hidePage, isShow) {
-        //	if (!_animateOptions) return;
+        _loadExtendControl: function(ctrl_arr, callback){
+            if (!ctrl_arr || ctrl_arr.length == 0) {
+                callback && callback();
+                return;
+            }
 
-        //	_animateOptions.show && _animateOptions.show($(showPage[0]), hidePage);
+            var path = ctrl_arr.pop();
+            $._method._loadController(path,true,function(){
+                $._method._loadExtendControl(ctrl_arr,callback);
+            })
+        },
+
+        /**
+         * 处理页面进入和离去动画
+         * @function _handleAnimate
+         * @param {Element} showPage - 即将被显示的元素
+         * @param {Element} hidePage - 即将被隐藏的元素
+         * @param {Boolean} isShow - 是显示页面还是隐藏页面
+         */
+        //_handleAnimate: function (showPage, hidePage, isShow) {
+        //    if (!_animateOptions) return;
+
+        //    _animateOptions.show && _animateOptions.show($(showPage[0]), hidePage);
         //},
 
         /**
-		 * 执行hide
-		 * @function _triggerHide
-		 */
+         * 执行hide
+         * @function _triggerHide
+         */
         _triggerHide: function () {
             if ($._param.hideLayer <= 0) return;
 
@@ -723,10 +741,10 @@
         },
 
         /**
-		 * 获取顶层页面对象
-		 * @function _getLastPage
-		 * @param {Boolean} isRemove - 获取后是否从队列中删除
-		 */
+         * 获取顶层页面对象
+         * @function _getLastPage
+         * @param {Boolean} isRemove - 获取后是否从队列中删除
+         */
         _getLastPage: function (isRemove,container_id) {
             if ($._param.pageList.length > 0) {
                 var pageList = $._param.pageList;
@@ -747,9 +765,9 @@
         },
 
         /**
-		 * 删除顶层页面
-		 * @function _hidePage
-		 */
+         * 删除顶层页面
+         * @function _hidePage
+         */
         _hidePage: function () {
             if ($._param.pageList.length <= 0) return;
 
@@ -800,12 +818,12 @@
         },
 
         /**
-		 * 准备销毁页面控制器内存
-		 * @function _cleanCtrl
-		 * @param {Boolean} isCleanAll - 是否销毁所有的页面，如果为false，只销毁当前的页面
+         * 准备销毁页面控制器内存
+         * @function _cleanCtrl
+         * @param {Boolean} isCleanAll - 是否销毁所有的页面，如果为false，只销毁当前的页面
          * @param {Boolean} curPageObj - 当前页面的对象
-		 * @param {String} container_id - 容器id
-		 */
+         * @param {String} container_id - 容器id
+         */
         _cleanCtrl: function (isCleanAll, curPageObj, container_id) {
             if (!isCleanAll) {
                 $._method._cleanScope(angular.element(jQuery("#" + curPageObj.id + " > div")[0]));
@@ -821,10 +839,10 @@
         },
 
         /**
-		 * 销毁某个angular控制器
-		 * @function _cleanScope
-		 * @param {Element} angularEl - angular元素
-		 */
+         * 销毁某个angular控制器
+         * @function _cleanScope
+         * @param {Element} angularEl - angular元素
+         */
         _cleanScope: function (angularEl) {
             if (angularEl.length > 0) {
                 var vScope = angularEl.scope();
@@ -833,12 +851,12 @@
         },
 
         /**
-		 * 路由捕捉到的页面url更改事件
-		 * @function _urlChanged
-		 * @param {Event} angularEvent - event对象
-		 * @param {String} newUrl - 更改之后的url
-		 * @param {String} oldUrl - 更改之前的url
-		 */
+         * 路由捕捉到的页面url更改事件
+         * @function _urlChanged
+         * @param {Event} angularEvent - event对象
+         * @param {String} newUrl - 更改之后的url
+         * @param {String} oldUrl - 更改之前的url
+         */
         _urlChanged: function (angularEvent, newUrl, oldUrl) {
             if($._param.pageList.length == 0) return;
 
@@ -873,9 +891,9 @@
         },
 
         /**
-		 * 在ctrl主入口中调用的初始化方法
-		 * @function _init
-		 */
+         * 在ctrl主入口中调用的初始化方法
+         * @function _init
+         */
         _init: function () {
             var startPageName = $.utils.getQueryString("p");
             if (startPageName) {
@@ -885,13 +903,13 @@
 
             //var hash = location.hash;
             //if (hash) {
-            //	var reg = /([a-zA-Z\d_]+\-?)+/;
-            //	var result = reg.exec(hash);
-            //	if (result) {
-            //		var path = result[1].replace(/\-/g, "/");
-            //		$.show(path, { showType: 0 });
-            //		return;
-            //	}
+            //    var reg = /([a-zA-Z\d_]+\-?)+/;
+            //    var result = reg.exec(hash);
+            //    if (result) {
+            //        var path = result[1].replace(/\-/g, "/");
+            //        $.show(path, { showType: 0 });
+            //        return;
+            //    }
             //}
 
             if ($._param.config.main) {
@@ -902,9 +920,9 @@
 
         _getShowAniClass: function (options) {
             if (!$._param.config.animate
-				|| !$._param.config.animate.show
-				|| options.showType == 0
-				|| options.style == "pop")
+                || !$._param.config.animate.show
+                || options.showType == 0
+                || options.style == "pop")
                 return "";
 
             return ' class="' + $._param.config.animate.show + '" ';
@@ -917,11 +935,11 @@
         },
 
         /**
-		 * 获取即将打开的页面html对象
-		 * @function _getPageHtml
-		 * @param {String} src - me.show中传入的src
-		 * @param {Object} options - me.show中传入的options对象
-		 */
+         * 获取即将打开的页面html对象
+         * @function _getPageHtml
+         * @param {String} src - me.show中传入的src
+         * @param {Object} options - me.show中传入的options对象
+         */
         _getPageHtml: function (src, options) {
             var pageSrc = $._method._getTplSrc(src, options.isFullPath);
             var path = pageSrc.replace(/\//g, "-").substring(0, pageSrc.indexOf("."));
@@ -1014,11 +1032,11 @@
         },
 
         /**
-		 * 加载插件
-		 * @function _loadPlugin
-		 * @param {String} pluginName - 插件名称
-		 * @param {Function} success - 加载成功后的回调
-		 */
+         * 加载插件
+         * @function _loadPlugin
+         * @param {String} pluginName - 插件名称
+         * @param {Function} success - 加载成功后的回调
+         */
         _loadPlugin: function (pluginName, success) {
             var plugin = $._param.plugins[pluginName];
 
@@ -1043,10 +1061,10 @@
         },
 
         /**
-		 * 获取模板路径
-		 * @function _getTplSrc
-		 * @param {String} src - 插件名称 | route名称 | 相对路径 | 绝对路径
-		 */
+         * 获取模板路径
+         * @function _getTplSrc
+         * @param {String} src - 插件名称 | route名称 | 相对路径 | 绝对路径
+         */
         _getTplSrc: function (src, isFullPath) {
             if ($._param.plugins && src in $._param.plugins) {
                 return $._param.plugins[src].src;
@@ -1079,10 +1097,10 @@
         },
 
         /**
-		 * 在页面对象中添加on和exec函数
-		 * @function _attachEvent
-		 * @param {Object} pageObj - 页面对象
-		 */
+         * 在页面对象中添加on和exec函数
+         * @function _attachEvent
+         * @param {Object} pageObj - 页面对象
+         */
         _attachEvent: function (pageObj) {
             pageObj.on = function (ename, callback) {
                 if (typeof (callback) != "function") return;
@@ -1106,26 +1124,26 @@
         },
 
         /**
-		 * 触发页面的事件
-		 * @function _triggerEvent
-		 * @param {Object} page - 页面对象
-		 * @param {String} ename - 事件名称
-		 * @param {Array} args - 参数
-		 */
+         * 触发页面的事件
+         * @function _triggerEvent
+         * @param {Object} page - 页面对象
+         * @param {String} ename - 事件名称
+         * @param {Array} args - 参数
+         */
         _triggerEvent: function (page, ename, args) {
             if (!ename
-				|| !page._eventMap
-				|| !(ename in page._eventMap)
-				|| typeof (page._eventMap[ename]) != "function")
+                || !page._eventMap
+                || !(ename in page._eventMap)
+                || typeof (page._eventMap[ename]) != "function")
                 return;
             page._eventMap[ename].apply(page, args || []);
         },
 
         /**
-		 * 如果未指定容器，获取config中设置的container对象，如果没有设置，返回body对象
+         * 如果未指定容器，获取config中设置的container对象，如果没有设置，返回body对象
          * @function _getContainer
          * @param {String} container_id - 指定的容器的id
-		 */
+         */
         _getContainer: function (container_id) {
             if (container_id) {
                 if (!container_id.startsWith('#')) {
@@ -1139,11 +1157,11 @@
         },
 
         /**
-		 * me.show页面时，在控制台打印的数据
-		 * @function _log
-		 * @param {String} src - 路径
-		 * @param {Object} options - me.show的时候传入的options
-		 */
+         * me.show页面时，在控制台打印的数据
+         * @function _log
+         * @param {String} src - 路径
+         * @param {Object} options - me.show的时候传入的options
+         */
         _log: function (src, options) {
             if (!$._param.config.debug) return;
 
@@ -1155,9 +1173,9 @@
         },
 
         /**
-		 * 触发me.ready中注册的函数
-		 * @function _triggerReadyFn
-		 */
+         * 触发me.ready中注册的函数
+         * @function _triggerReadyFn
+         */
         _triggerReadyFn: function () {
             if ($._param.readyFnList.length == 0) return;
 
@@ -1167,9 +1185,9 @@
         },
 
         /**
-		 * 构建自定义指令
-		 * @function _buildDirective
-		 */
+         * 构建自定义指令
+         * @function _buildDirective
+         */
         _buildDirective: function () {
             var dirs = $._param.directiveList;
             for (var i = 0; i < dirs.length; i++) {
@@ -1178,10 +1196,10 @@
         },
 
         /**
-		 * 设置新打开的页面标题
-		 * @function _setTitle
-		 * @param {String} options - me.show的时候传入的options
-		 */
+         * 设置新打开的页面标题
+         * @function _setTitle
+         * @param {String} options - me.show的时候传入的options
+         */
         _setTitle: function (options) {
             if (!options.title) {
                 options.title = document.title;
