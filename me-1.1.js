@@ -794,6 +794,18 @@
             }
         },
 
+        _loadExtendControl: function(ctrl_arr, callback){
+            if (!ctrl_arr || ctrl_arr.length == 0) {
+                callback && callback();
+                return;
+            }
+
+            var path = ctrl_arr.pop();
+            $._method._loadController(path,true,function(){
+                $._method._loadExtendControl(ctrl_arr,callback);
+            })
+        },
+
         /**
          * 准备销毁页面控制器内存
          * @function _cleanCtrl
