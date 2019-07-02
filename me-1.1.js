@@ -201,7 +201,17 @@
                 success && success(data);
                 $.ngobj.$scope.$apply();
             };
-            option.error = function () {
+            // 超时重试
+            option.timeout = 3000;
+            if(!option.tryCount){
+                option.tryCount = 1
+            }
+            option.error = function (xhr, textStatus, errorThrown) {
+                if(textStatus == 'timeout' && option.tryCount < 3){
+                    option.tryCount += 1
+                    jQuery.ajax(option);
+                    return;
+                }
                 failure && failure();
             };
 
