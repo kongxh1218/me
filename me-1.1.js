@@ -61,11 +61,17 @@
         },
 
         loadScript: function (scriptId, src, callback) {
-            if (document.getElementById(scriptId)) {
+            $._param.loadScript_Cache || ($._param.loadScript_Cache = {});
+            if ($._param.loadScript_Cache[scriptId]) {
+                callback && callback();
                 return;
             }
-
-            jQuery.getScript(src, callback);
+            
+            jQuery.ajaxSetup({cache: true});
+            jQuery.getScript(src, function(){
+                $._param.loadScript_Cache[scriptId] = 1;
+                callback && callback();
+            });
         },
 
         loadStyle: function (styleId, src) {
@@ -919,7 +925,13 @@
             var need_cache = $._param.config.cache;
 
             var page = '<div class="me-page" id="' + pageId + '" ng-include src="\'' + pageSrc;
-            need_cache || (page += '?temp=' + new Date().getTime());
+            if (!need_cache) {
+                if (pageSrc.indexOf("?") > 0) {
+                    page += '&temp=' + new Date().getTime();
+                } else {
+                    page += '?temp=' + new Date().getTime();
+                }
+            }
             page += '\'"></div>';
 
             var pageObj = {
