@@ -806,10 +806,17 @@
                 return;
             }
 
-            var path = ctrl_arr.pop();
-            $._method._loadController(path,true,function(){
-                $._method._loadExtendControl(ctrl_arr,callback);
-            })
+            var success_count = 0;
+            for(var i in ctrl_arr) {
+                var path = ctrl_arr[i];
+                $._method._loadController(path,true,function(){
+                    success_count++;
+
+                    if (success_count == ctrl_arr.length) {
+                        callback && callback();
+                    }
+                });
+            }
         },
 
         /**
